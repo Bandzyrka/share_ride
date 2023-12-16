@@ -1,4 +1,4 @@
-package com.example.share_ride;
+package com.share_ride;
 
 import java.io.IOException;
 import java.util.logging.*;

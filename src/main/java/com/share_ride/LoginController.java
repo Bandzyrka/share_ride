@@ -1,6 +1,5 @@
-package com.example.share_ride;
+package com.share_ride;
 
-import com.example.share_ride.LoginManager;
 import javafx.event.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
