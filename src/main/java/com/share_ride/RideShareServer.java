@@ -11,6 +11,7 @@ public class RideShareServer {
         HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
         server.createContext("/createRide", new CreateRideHandler());
         server.createContext("/availableRides", new AvailableRidesHandler());
+        server.createContext("/register", new RegisterHandler());
         server.createContext("/joinRide", new JoinRideHandler());
         server.setExecutor(Executors.newFixedThreadPool(10)); // creates a default executor
         server.start();

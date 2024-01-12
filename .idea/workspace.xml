@@ -4,24 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9367a3b9-9d45-4517-9f43-3fd02dcc6120" name="Changes" comment="added login view">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/share_ride/AvailableRidesHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/share_ride/AvailableRidesViewController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/share_ride/CreateRideHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/share_ride/DatabaseHelper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/share_ride/JoinRideHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/share_ride/RideCreationFormController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/share_ride/RideShareServer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/share_ride/AvailableRidesView.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/share_ride/ride-create.fxml" afterDir="false" />
+    <list default="true" id="9367a3b9-9d45-4517-9f43-3fd02dcc6120" name="Changes" comment="created server with basic endpoints, created basic views for creating and seeeing rides">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/share_ride/RegisterHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/share_ride/RegistrationFormController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/share_ride/Ride.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/share_ride/Session.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/share_ride/RegistrationForm.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/a9d4a687-7154-4cfe-8980-ccc950bb8e26.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/a9d4a687-7154-4cfe-8980-ccc950bb8e26.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/share_ride/LoginDemoApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/share_ride/LoginDemoApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/share_ride/MainViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/share_ride/MainViewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/share_ride/main-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/share_ride/main-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/share_ride/AvailableRidesViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/share_ride/AvailableRidesViewController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/share_ride/DatabaseHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/share_ride/DatabaseHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/share_ride/JoinRideHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/share_ride/JoinRideHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/share_ride/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/share_ride/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/share_ride/LoginDemoApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/share_ride/LoginDemoApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/share_ride/LoginManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/share_ride/LoginManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/share_ride/RideShareServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/share_ride/RideShareServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/share_ride/AvailableRidesView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/share_ride/AvailableRidesView.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/share_ride/login-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/share_ride/login-view.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/users.db" beforeDir="false" afterPath="$PROJECT_DIR$/users.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/users.sqbpro" beforeDir="false" afterPath="$PROJECT_DIR$/users.sqbpro" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,6 +62,9 @@
   }
 }</component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.share_ride" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/resources/com/example/share_ride" />
     </key>
@@ -69,6 +73,34 @@
     <option name="myCommands">
       <command value="mvn install" />
     </option>
+  </component>
+  <component name="RunManager" selected="Application.user2">
+    <configuration name="server" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="com.share_ride.RideShareServer" />
+      <module name="share_ride" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="user1" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="com.share_ride.LoginDemoApplication" />
+      <module name="share_ride" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="user2" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="com.share_ride.LoginDemoApplication" />
+      <module name="share_ride" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.user1" />
+      <item itemvalue="Application.user2" />
+      <item itemvalue="Application.server" />
+    </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -80,6 +112,8 @@
       <updated>1701691437362</updated>
       <workItem from="1701691438430" duration="6614000" />
       <workItem from="1702682210758" duration="3877000" />
+      <workItem from="1705014403602" duration="3477000" />
+      <workItem from="1705017952533" duration="2900000" />
     </task>
     <task id="LOCAL-00001" summary="init project">
       <created>1701699344262</created>
@@ -100,6 +134,17 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="init project" />

@@ -6,7 +6,8 @@
         <columns>
             <TableColumn text="Origin" fx:id="originColumn"/>
             <TableColumn text="Destination" fx:id="destinationColumn"/>
-            <!-- Add other columns as needed -->
+            <TableColumn text="Participants" fx:id="participantsColumn"/>
+            <TableColumn text="Join" fx:id="joinColumn"/>
         </columns>
     </TableView>
 </VBox>

@@ -12,8 +12,6 @@ import java.io.IOException;
 public class LoginDemoApplication extends Application {
     public static void main(String[] args) { launch(args); }
     @Override public void start(Stage stage) throws IOException {
-        startServer();
-
         Scene scene = new Scene(new StackPane());
 
         LoginManager loginManager = new LoginManager(scene);

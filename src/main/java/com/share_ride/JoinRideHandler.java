@@ -7,6 +7,7 @@ import java.nio.charset.StandardCharsets;
 import org.json.JSONObject;
 
 public class JoinRideHandler implements HttpHandler {
+    public Session session = Session.getInstance();
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         if ("POST".equals(exchange.getRequestMethod())) {
@@ -19,10 +20,8 @@ public class JoinRideHandler implements HttpHandler {
                 }
                 JSONObject jsonObject = new JSONObject(body.toString());
 
-                String userId = jsonObject.getString("userId");
                 int rideId = jsonObject.getInt("rideId");
-
-                DatabaseHelper.joinRide(userId, rideId);
+                DatabaseHelper.joinRide(session.getUserId(), rideId);
 
                 String response = "Successfully joined the ride";
                 exchange.sendResponseHeaders(200, response.getBytes().length);

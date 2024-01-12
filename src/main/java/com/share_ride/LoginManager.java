@@ -19,6 +19,7 @@ public class LoginManager {
      */
     public void authenticated(String sessionID) {
         showMainView(sessionID);
+
     }
 
     /**
@@ -54,6 +55,17 @@ public class LoginManager {
             controller.initSessionID(this, sessionID);
         } catch (IOException ex) {
             Logger.getLogger(LoginManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void showRegistrationScreen() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("RegistrationForm.fxml"));
+            scene.setRoot(loader.load());
+            RegistrationFormController controller = loader.getController();
+            controller.setLoginManager(this);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

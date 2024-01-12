@@ -1,6 +1,8 @@
 package com.share_ride;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DatabaseHelper {
 
@@ -37,4 +39,29 @@ public class DatabaseHelper {
             pstmt.executeUpdate();
         }
     }
+
+    public static List<String> getRideParticipants(int rideId) throws SQLException {
+        List<String> participants = new ArrayList<>();
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement("SELECT user_id FROM ride_participants WHERE ride_id = ?")) {
+            pstmt.setInt(1, rideId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    participants.add(rs.getString("user_id"));
+                }
+            }
+        }
+        return participants;
+    }
+
+    public static void createUser(String username, String password, String displayName) throws SQLException {
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement("INSERT INTO users (username, password, display_name) VALUES (?, ?, ?)")) {
+            pstmt.setString(1, username);
+            pstmt.setString(2, password);
+            pstmt.setString(3, displayName);
+            pstmt.executeUpdate();
+        }
+    }
+
 }

@@ -11,9 +11,15 @@ import java.sql.ResultSet;
 
 /** Controls the login screen */
 public class LoginController {
-    @FXML private TextField user;
-    @FXML private TextField password;
+
+    @FXML
+    TextField user;
+    @FXML
+    TextField password;
     @FXML private Button loginButton;
+    @FXML private Button registerButton;
+    Session session = Session.getInstance();
+
 
     public void initialize() {}
 
@@ -23,9 +29,19 @@ public class LoginController {
                 String sessionID = authorize();
                 if (sessionID != null) {
                     loginManager.authenticated(sessionID);
+
                 }
             }
         });
+
+        registerButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                loginManager.showRegistrationScreen();
+
+            }
+        });
+
     }
 
     /**
@@ -34,7 +50,7 @@ public class LoginController {
      * If accepted, return a sessionID for the authorized session
      * otherwise, return null.
      */
-    private String authorize() {
+    String authorize() {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -44,7 +60,7 @@ public class LoginController {
             connection = DriverManager.getConnection("jdbc:sqlite:/Users/wiktorbandzyra/IdeaProjects/share_ride/users.db");
 
             // Prepare a statement to execute SQL query
-            String query = "SELECT password FROM users WHERE username = ?";
+            String query = "SELECT * FROM users WHERE username = ?";
             statement = connection.prepareStatement(query);
             statement.setString(1, user.getText());
 
@@ -53,7 +69,11 @@ public class LoginController {
 
             if (resultSet.next()) {
                 String retrievedPassword = resultSet.getString("password");
+                String retrievedUserId = resultSet.getString("id");
+                String username = resultSet.getString("username");
+                String displayName = resultSet.getString("display_name");
                 if (retrievedPassword.equals(password.getText())) {
+                    session.setUser(retrievedUserId, username, displayName);
                     return generateSessionID();
                 }
             }
@@ -77,6 +97,7 @@ public class LoginController {
 
     private String generateSessionID() {
         sessionID++;
-        return "xyzzy - session " + sessionID;
+        System.out.println(session.getUserId());
+        return "session: " + session.getDisplayName();
     }
 }

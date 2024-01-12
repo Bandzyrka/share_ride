@@ -1,42 +1,79 @@
 package com.share_ride;
 
-import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import java.net.URL;
-import java.util.Scanner;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
 
 public class AvailableRidesViewController {
 
-    @FXML private TableView<JSONObject> ridesTable;
-    @FXML private TableColumn<JSONObject, String> originColumn;
-    @FXML private TableColumn<JSONObject, String> destinationColumn;
-
+    @FXML private TableView<Ride> ridesTable;
+    @FXML private TableColumn<Ride, String> originColumn;
+    @FXML private TableColumn<Ride, String> destinationColumn;
+    @FXML private TableColumn<Ride, String> participantsColumn;
+    @FXML private TableColumn<Ride, Button> joinColumn;
+    Session session = Session.getInstance();
     public void initialize() {
-        originColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getString("origin")));
-        destinationColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getString("destination")));
+        originColumn.setCellValueFactory(new PropertyValueFactory<>("origin"));
+        destinationColumn.setCellValueFactory(new PropertyValueFactory<>("destination"));
+        participantsColumn.setCellValueFactory(new PropertyValueFactory<>("participants"));
+        joinColumn.setCellFactory(col -> new TableCell<>() {
+            private final Button joinButton = new Button("Join");
+
+            @Override
+            protected void updateItem(Button item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(joinButton);
+                    joinButton.setOnAction(event -> joinRide(getTableView().getItems().get(getIndex()).getId()));
+                }
+            }
+        });
+
         fetchRides();
     }
 
     private void fetchRides() {
         try {
-            URL url = new URL("http://localhost:8000/availableRides");
-            Scanner sc = new Scanner(url.openStream());
-            StringBuilder sb = new StringBuilder();
-            while (sc.hasNext()) {
-                sb.append(sc.nextLine());
+            ResultSet rs = DatabaseHelper.getAvailableRides();
+            while (rs.next()) {
+                Ride ride = new Ride();
+                ride.setId(rs.getInt("id"));
+                ride.setOrigin(rs.getString("origin"));
+                ride.setDestination(rs.getString("destination"));
+                List<String> participants = DatabaseHelper.getRideParticipants(ride.getId());
+                ride.setParticipants(String.join(", ", participants));
+                ridesTable.getItems().add(ride);
             }
-            sc.close();
-
-            JSONArray rides = new JSONArray(sb.toString());
-            for (int i = 0; i < rides.length(); i++) {
-                ridesTable.getItems().add(rides.getJSONObject(i));
-            }
-        } catch (Exception e) {
+            rs.close();
+        } catch (SQLException e) {
             e.printStackTrace();
+            // Handle exceptions
+        }
+    }
+
+    private void joinRide(int rideId) {
+        try {
+            DatabaseHelper.joinRide(session.getUserId(), rideId);
+
+            // Update the participants list
+            Ride rideToUpdate = ridesTable.getItems().stream()
+                    .filter(ride -> ride.getId() == rideId)
+                    .findFirst()
+                    .orElse(null);
+            if (rideToUpdate != null) {
+                List<String> participants = DatabaseHelper.getRideParticipants(rideId);
+                rideToUpdate.setParticipants(String.join(", ", participants));
+                ridesTable.refresh();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle exceptions
         }
     }
 }
