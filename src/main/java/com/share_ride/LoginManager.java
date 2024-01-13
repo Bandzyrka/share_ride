@@ -2,6 +2,10 @@ package com.share_ride;
 
 import java.io.IOException;
 import java.util.logging.*;
+
+import controllers.LoginController;
+import controllers.MainViewController;
+import controllers.RegistrationFormController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
 
@@ -33,7 +37,7 @@ public class LoginManager {
     public void showLoginScreen() {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("login-view.fxml")
+                    getClass().getResource("LoginView.fxml")
             );
             scene.setRoot((Parent) loader.load());
             LoginController controller =
@@ -47,7 +51,7 @@ public class LoginManager {
     private void showMainView(String sessionID) {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("main-view.fxml")
+                    getClass().getResource("MainView.fxml")
             );
             scene.setRoot((Parent) loader.load());
             MainViewController controller =

@@ -3,14 +3,16 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.geometry.Insets?>
-<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.share_ride.MainViewController">
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.MainViewController">
     <top>
         <HBox spacing="10" alignment="CENTER">
             <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
             <Button text="Create Ride" onAction="#showCreateRideView"/>
             <Button text="Available Rides" onAction="#showAvailableRidesView"/>
+            <Button text="profile" onAction="#showProfileView"/>
             <Label fx:id="sessionLabel" text="Session ID: Undefined" />
             <Button fx:id="logoutButton" text="Logout"/>
+
         </HBox>
     </top>
     <center>

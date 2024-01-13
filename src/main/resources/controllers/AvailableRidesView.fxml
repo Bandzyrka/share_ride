@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.VBox?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.share_ride.AvailableRidesViewController">
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AvailableRidesViewController">
     <TableView fx:id="ridesTable">
         <columns>
+            <TableColumn text="Date" fx:id="dateColumn"/>
+            <TableColumn text="Time" fx:id="timeColumn"/>
+            <TableColumn text="Seats" fx:id="seatsColumn"/>
+            <TableColumn text="Creator" fx:id="creatorColumn"/>
             <TableColumn text="Origin" fx:id="originColumn"/>
             <TableColumn text="Destination" fx:id="destinationColumn"/>
             <TableColumn text="Participants" fx:id="participantsColumn"/>

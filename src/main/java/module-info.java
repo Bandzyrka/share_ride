@@ -13,4 +13,12 @@ module com.example.share_ride {
 
     opens com.share_ride to javafx.fxml;
     exports com.share_ride;
+    exports server;
+    opens server to javafx.fxml;
+    exports handlers;
+    opens handlers to javafx.fxml;
+    exports database;
+    opens database to javafx.fxml;
+    exports controllers;
+    opens controllers to javafx.fxml;
 }

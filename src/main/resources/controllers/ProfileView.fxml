@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 
 <?import com.jfoenix.controls.JFXPasswordField?>
-<AnchorPane id="AnchorPane" prefHeight="463.0" prefWidth="660.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111" fx:controller="controllers.RegistrationFormController">
+<AnchorPane id="AnchorPane" prefHeight="463.0" prefWidth="660.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111" fx:controller="controllers.ProfileViewController">
     <children>
         <JFXTextField fx:id="firstNameField" focusColor="#48a5ea" layoutX="133.0" layoutY="92.0" prefHeight="25.0" prefWidth="217.0" promptText="First Name" />
         <JFXTextField fx:id="emailField" focusColor="#48a5ea" layoutX="133.0" layoutY="157.0" prefHeight="25.0" prefWidth="217.0" promptText="Email ID" />
@@ -28,12 +28,7 @@
         <JFXTextField fx:id="countryField" focusColor="#48a5ea" layoutX="133.0" layoutY="224.0" prefHeight="25.0" prefWidth="217.0" promptText="Country" />
         <JFXTextField fx:id="stateField" focusColor="#48a5ea" layoutX="415.0" layoutY="224.0" prefHeight="25.0" prefWidth="94.0" promptText="State" />
         <JFXTextField fx:id="cityField" focusColor="#48a5ea" layoutX="535.0" layoutY="224.0" prefHeight="25.0" prefWidth="94.0" promptText="City" />
-        <JFXButton fx:id="registerButton" layoutX="524.0" layoutY="349.0" prefHeight="25.0" prefWidth="116.0" onMousePressed="#handleRegister" style="-fx-background-color: #48A5EA;" text="Continue" textFill="WHITE" />
+        <JFXButton fx:id="registerButton" layoutX="524.0" layoutY="349.0" prefHeight="25.0" prefWidth="116.0" onMousePressed="#handleEdit" style="-fx-background-color: #48A5EA;" text="Continue" textFill="WHITE" />
         <Separator layoutX="133.0" layoutY="68.0" prefHeight="1.0" prefWidth="520.0" />
-        <Label id="btn_exit" fx:id="btn_exit" layoutX="675.0" layoutY="2.0" onMousePressed="#handleBackToLogin" prefHeight="25.0" prefWidth="21.0" text="X" textFill="#48a5ea">
-            <font>
-                <Font   name="System Bold" size="16.0" />
-            </font>
-        </Label>
     </children>
 </AnchorPane>

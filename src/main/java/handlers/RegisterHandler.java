@@ -1,5 +1,6 @@
-package com.share_ride;
+package handlers;
 
+import database.DatabaseHelper;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import org.json.JSONObject;
@@ -12,14 +13,19 @@ public class RegisterHandler implements HttpHandler {
             InputStreamReader isr = new InputStreamReader(exchange.getRequestBody(), "utf-8");
             BufferedReader br = new BufferedReader(isr);
             String query = br.readLine();
-
             JSONObject requestData = new JSONObject(query);
             String username = requestData.getString("username");
             String password = requestData.getString("password");
             String displayName = requestData.getString("displayName");
-
+            String firstName = requestData.getString("firstName");
+            String lastName = requestData.getString("lastName");
+            String email = requestData.getString("email");
+            String phone = requestData.getString("phone");
+            String country = requestData.getString("country");
+            String city = requestData.getString("city");
+            String state = requestData.getString("state");
             try {
-                DatabaseHelper.createUser(username, password, displayName);
+                DatabaseHelper.createUser(username, password, displayName, firstName, lastName, email, phone, country, city, state);
                 String response = "User registered successfully";
                 exchange.sendResponseHeaders(200, response.getBytes().length);
                 OutputStream os = exchange.getResponseBody();

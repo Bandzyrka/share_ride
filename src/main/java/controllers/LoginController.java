@@ -1,5 +1,7 @@
-package com.share_ride;
+package controllers;
 
+import com.share_ride.LoginManager;
+import com.share_ride.Session;
 import javafx.event.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;

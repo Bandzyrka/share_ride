@@ -1,5 +1,6 @@
-package com.share_ride;
+package controllers;
 
+import com.share_ride.Session;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -8,7 +9,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
-public class RideCreationFormController {
+public class    RideCreationFormController {
+
+    public Session session = Session.getInstance();
 
     @FXML private TextField originField;
     @FXML private TextField destinationField;
@@ -25,7 +28,7 @@ public class RideCreationFormController {
         int seats = Integer.parseInt(seatsField.getText());
 
         JSONObject json = new JSONObject();
-        json.put("creatorId", "userId");  // Replace with actual logged-in user ID
+        json.put("creatorId", session.getUserId());
         json.put("origin", origin);
         json.put("destination", destination);
         json.put("date", date);

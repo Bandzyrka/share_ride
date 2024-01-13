@@ -2,7 +2,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
-<VBox spacing="10" alignment="CENTER" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.share_ride.RideCreationFormController">
+<VBox spacing="10" alignment="CENTER" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RideCreationFormController">
     <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
     <TextField fx:id="originField" promptText="Origin" maxWidth="200"/>
     <TextField fx:id="destinationField" promptText="Destination" maxWidth="200"/>
