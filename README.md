@@ -1,6 +1,4 @@
-The GitHub repository for the project "share_ride" has a variety of files, including Java source files, FXML files for the user interface, CSS for styling, and database files. To create a README file, I'll summarize the project based on the files present. Here's a draft for the README:
 
----
 
 # Share Ride Project
 
