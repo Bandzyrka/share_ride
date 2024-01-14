@@ -17,6 +17,8 @@ The GitHub repository for the project "share_ride" has a variety of files, inclu
 1. Ensure you have Maven and Java installed.
 2. Clone the repository.
 3. Navigate to the project directory and run `mvnw` to start the application.
+4. start server
+5. start client application
 
 ## Contributing
 Contributions are welcome. Please fork the repository and submit a pull request for review.
