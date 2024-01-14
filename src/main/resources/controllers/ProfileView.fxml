@@ -28,7 +28,7 @@
         <JFXTextField fx:id="countryField" focusColor="#48a5ea" layoutX="133.0" layoutY="224.0" prefHeight="25.0" prefWidth="217.0" promptText="Country" />
         <JFXTextField fx:id="stateField" focusColor="#48a5ea" layoutX="415.0" layoutY="224.0" prefHeight="25.0" prefWidth="94.0" promptText="State" />
         <JFXTextField fx:id="cityField" focusColor="#48a5ea" layoutX="535.0" layoutY="224.0" prefHeight="25.0" prefWidth="94.0" promptText="City" />
-        <JFXButton fx:id="registerButton" layoutX="524.0" layoutY="349.0" prefHeight="25.0" prefWidth="116.0" onMousePressed="#handleEdit" style="-fx-background-color: #48A5EA;" text="Continue" textFill="WHITE" />
+        <JFXButton fx:id="editButton" layoutX="524.0" layoutY="349.0" prefHeight="25.0" prefWidth="116.0" onMousePressed="#handleEdit" style="-fx-background-color: #48A5EA;" text="edit" textFill="WHITE" />
         <Separator layoutX="133.0" layoutY="68.0" prefHeight="1.0" prefWidth="520.0" />
     </children>
 </AnchorPane>

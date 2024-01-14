@@ -1,11 +1,9 @@
 package com.share_ride;
 
 public class Session {
-    private static Session instance;
+    public static Session instance;
 
-    private String userId;
-    private String username;
-    private String displayName;
+    public User user;
 
     private Session() {}
 
@@ -16,16 +14,16 @@ public class Session {
         return instance;
     }
 
-    public void setUser(String userId, String username, String displayName) {
-        this.userId = userId;
-        this.username = username;
-        this.displayName = displayName;
+    // Getters
+    public int getUserId() { return user.getId(); }
+    public String getUsername() { return user.getUsername(); }
+    public String getDisplayName() { return user.getDisplayName(); }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    // Getters
-    public String getUserId() { return userId; }
-    public String getUsername() { return username; }
-    public String getDisplayName() { return displayName; }
-
-    // You can add more session related properties and methods here
+    public User getUser() {
+        return user;
+    }
 }

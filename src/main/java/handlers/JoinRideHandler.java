@@ -22,8 +22,8 @@ public class JoinRideHandler implements HttpHandler {
                 }
                 JSONObject jsonObject = new JSONObject(body.toString());
                 int rideId = jsonObject.getInt("rideId");
-                DatabaseHelper.joinRide(session.getUserId(), rideId);
-
+                int userId = jsonObject.getInt("userId");
+                DatabaseHelper.joinRide(userId, rideId);
                 String response = "Successfully joined the ride";
                 exchange.sendResponseHeaders(200, response.getBytes().length);
                 OutputStream os = exchange.getResponseBody();

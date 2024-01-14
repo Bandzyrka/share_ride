@@ -2,14 +2,20 @@ package controllers;
 
 import com.share_ride.LoginManager;
 import com.share_ride.Session;
+import com.share_ride.User;
 import javafx.event.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import org.json.JSONObject;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Scanner;
 
 /** Controls the login screen */
 public class LoginController {
@@ -53,53 +59,49 @@ public class LoginController {
      * otherwise, return null.
      */
     String authorize() {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-
         try {
-            // Establish a connection to the database
-            connection = DriverManager.getConnection("jdbc:sqlite:/Users/wiktorbandzyra/IdeaProjects/share_ride/users.db");
+            JSONObject json = new JSONObject();
+            json.put("username", user.getText());
+            json.put("password", password.getText());
 
-            // Prepare a statement to execute SQL query
-            String query = "SELECT * FROM users WHERE username = ?";
-            statement = connection.prepareStatement(query);
-            statement.setString(1, user.getText());
+            URL url = new URL("http://localhost:8000/login");
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("POST");
+            con.setDoOutput(true);
+            con.getOutputStream().write(json.toString().getBytes(StandardCharsets.UTF_8));
 
-            // Execute the query
-            resultSet = statement.executeQuery();
+            int responseCode = con.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                // Read response
+                Scanner scanner = new Scanner(con.getInputStream()).useDelimiter("\\A");
+                String response = scanner.hasNext() ? scanner.next() : "";
+                scanner.close();
 
-            if (resultSet.next()) {
-                String retrievedPassword = resultSet.getString("password");
-                String retrievedUserId = resultSet.getString("id");
-                String username = resultSet.getString("username");
-                String displayName = resultSet.getString("display_name");
-                if (retrievedPassword.equals(password.getText())) {
-                    session.setUser(retrievedUserId, username, displayName);
-                    return generateSessionID();
-                }
+                JSONObject responseJson = new JSONObject(response);
+                User user = new User(responseJson.getInt("id"), responseJson.getString("username"), responseJson.getString("displayName"), responseJson.getString("firstName"), responseJson.getString("lastName"), responseJson.getString("email"), responseJson.getString("phone"), responseJson.getString("country"), responseJson.getString("city"), responseJson.getString("state"), responseJson.getString("password"));
+                session.setUser(user);
+                return generateSessionID();
+            } else {
+                // Handle login failure
+                showAlert("Login Failed", "Invalid username or password");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            // Handle any errors that might have occurred
-        } finally {
-            // Close all opened resources
-            try {
-                if (resultSet != null) resultSet.close();
-                if (statement != null) statement.close();
-                if (connection != null) connection.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            // Handle exceptions
         }
         return null;
     }
-
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
     private static int sessionID = 0;
 
     private String generateSessionID() {
         sessionID++;
-        System.out.println(session.getUserId());
         return "session: " + session.getDisplayName();
     }
 }

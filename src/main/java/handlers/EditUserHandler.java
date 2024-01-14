@@ -1,13 +1,18 @@
 package handlers;
 
-import database.DatabaseHelper;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import java.io.*;
-import java.nio.charset.StandardCharsets;
+import database.DatabaseHelper;
 import org.json.JSONObject;
 
-public class CreateRideHandler implements HttpHandler {
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
+
+public class EditUserHandler implements HttpHandler {
+    DatabaseHelper databaseHelper = new DatabaseHelper();
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         if ("POST".equals(exchange.getRequestMethod())) {
@@ -19,17 +24,19 @@ public class CreateRideHandler implements HttpHandler {
                     body.append(line);
                 }
                 JSONObject jsonObject = new JSONObject(body.toString());
-
-                int creatorId = jsonObject.getInt("creatorId");
-                String origin = jsonObject.getString("origin");
-                String destination = jsonObject.getString("destination");
-                String date = jsonObject.getString("date");
-                String time = jsonObject.getString("time");
-                int seats = jsonObject.getInt("seats");
-
-                DatabaseHelper.createRide(creatorId, origin, destination, date, time, seats);
-
-                String response = "Ride created successfully";
+                int userId = jsonObject.getInt("userId");
+                String username = jsonObject.getString("username");
+                String password = jsonObject.getString("password");
+                String displayName = jsonObject.getString("displayName");
+                String firstName = jsonObject.getString("firstName");
+                String lastName = jsonObject.getString("lastName");
+                String email = jsonObject.getString("email");
+                String phone = jsonObject.getString("phone");
+                String country = jsonObject.getString("country");
+                String city = jsonObject.getString("city");
+                String state = jsonObject.getString("state");
+                DatabaseHelper.editUser(userId, username, password, displayName, firstName, lastName, email, phone, country, city, state);
+                String response = "Successfully edited user";
                 exchange.sendResponseHeaders(200, response.getBytes().length);
                 OutputStream os = exchange.getResponseBody();
                 os.write(response.getBytes());

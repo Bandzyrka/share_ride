@@ -3,7 +3,9 @@ package controllers;
 import com.share_ride.LoginManager;
 import com.share_ride.Session;
 import com.share_ride.User;
+import database.DatabaseHelper;
 import javafx.fxml.FXML;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -12,12 +14,14 @@ import org.json.JSONObject;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.sql.ResultSet;
 import java.util.Scanner;
 
 public class ProfileViewController {
     private LoginManager loginManager;
     private User user;
+    DatabaseHelper db = new DatabaseHelper();
 
     public void setLoginManager(LoginManager loginManager) {
         this.loginManager = loginManager;
@@ -44,50 +48,38 @@ public class ProfileViewController {
     private TextField stateField;
 
     @FXML
-    private Button registerButton;
+    private Button editButton;
+
+    public Session session = Session.getInstance();
+
 
     @FXML
     public void initialize() {
-        registerButton.setDisable(true);
-        fetchUserData(Session.getInstance().getUserId());
+        setUserData();
 
     }
 
-    public void fetchUserData(String userId) {
+    public void setUserData() {
+                User userData = session.getUser();
+                usernameField.setText(userData.getUsername());
+                passwordField.setText(userData.getPassword());
+                firstNameField.setText(userData.getFirstName());
+                lastNameField.setText(userData.getLastName());
+                emailField.setText(userData.getEmail());
+                phoneNumberField.setText(userData.getPhone());
+                countryField.setText(userData.getCountry());
+                cityField.setText(userData.getCity());
+                stateField.setText(userData.getState());
+    }
+
+
+    public void handleEdit(MouseEvent mouseEvent) {
         try {
-            URL url = new URL("http://localhost:8000/getUserById?id=" + userId);
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-
-            int responseCode = con.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                Scanner scanner = new Scanner(url.openStream());
-                String response = scanner.useDelimiter("\\A").next();
-                scanner.close();
-
-                JSONObject userData = new JSONObject(response);
-                usernameField.setText(userData.getString("username"));
-                passwordField.setText(userData.getString("password"));
-                firstNameField.setText(userData.getString("firstName"));
-                lastNameField.setText(userData.getString("lastName"));
-                emailField.setText(userData.getString("email"));
-                phoneNumberField.setText(userData.getString("phoneNumber"));
-                countryField.setText(userData.getString("country"));
-                cityField.setText(userData.getString("city"));
-                stateField.setText(userData.getString("state"));
-            } else {
-            }
+            DatabaseHelper.editUser(session.getUserId(), usernameField.getText(), passwordField.getText(), session.getDisplayName(), firstNameField.getText(),lastNameField.getText(), emailField.getText(), phoneNumberField.getText(), countryField.getText(), cityField.getText(), stateField.getText());
+            session.setUser(DatabaseHelper.getUserById(session.getUserId()));
         } catch (Exception e) {
             e.printStackTrace();
             // Handle exceptions
         }
     }
-
-    @FXML
-    private void handleBackToLogin() {
-        loginManager.showLoginScreen();
     }
-
-    public void handleEdit(MouseEvent mouseEvent) {
-    }
-}

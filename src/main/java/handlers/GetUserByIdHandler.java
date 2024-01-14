@@ -12,7 +12,7 @@ public class GetUserByIdHandler implements HttpHandler {
     public void handle(HttpExchange exchange) throws IOException {
         if ("GET".equals(exchange.getRequestMethod())) {
             String query = exchange.getRequestURI().getQuery();
-            String userId = query.substring(query.indexOf("=") + 1);
+            int userId = Integer.parseInt(query.substring(query.indexOf("=") + 1));
 
             try {
                 User user = DatabaseHelper.getUserById(userId);

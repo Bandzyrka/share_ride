@@ -7,10 +7,15 @@ import database.DatabaseHelper;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-import java.sql.ResultSet;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Scanner;
 
 public class AvailableRidesViewController {
 
@@ -65,67 +70,85 @@ public class AvailableRidesViewController {
 
     private void fetchRides() {
         try {
-            ResultSet rs = DatabaseHelper.getAvailableRides();
-            while (rs.next()) {
-                Ride ride = new Ride();
-                ride.setId(rs.getInt("id"));
-                ride.setOrigin(rs.getString("origin"));
-                ride.setDestination(rs.getString("destination"));
-                ride.setDate(rs.getString("date"));
-                ride.setTime(rs.getString("time"));
-                ride.setSeats(rs.getInt("seats_available"));
+            URL url = new URL("http://localhost:8000/availableRides"); // Update with your server URL
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
 
-                User creator = DatabaseHelper.getUserById(rs.getString("creator_id"));
-                ride.setCreator(creator.getDisplayName());
-                List<String> participants = DatabaseHelper.getRideParticipantNames(ride.getId());
-                ride.setParticipants(String.join(", ", participants));
+            int responseCode = con.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                Scanner scanner = new Scanner(url.openStream());
+                String response = scanner.useDelimiter("\\A").next();
+                scanner.close();
 
-                ridesTable.getItems().add(ride);
+                JSONArray jsonArray = new JSONArray(response);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    Ride ride = new Ride();
+                    ride.setId(jsonObject.getInt("id"));
+                    ride.setOrigin(jsonObject.getString("origin"));
+                    ride.setDestination(jsonObject.getString("destination"));
+                    ride.setDate(jsonObject.getString("date"));
+                    ride.setTime(jsonObject.getString("time"));
+                    ride.setSeats(jsonObject.getInt("seats_available"));
+
+                    User creator = DatabaseHelper.getUserById(jsonObject.getInt("creator_id"));
+                    ride.setCreator(creator.getDisplayName());
+                    List<String> participants = DatabaseHelper.getRideParticipantNames(ride.getId());
+                    ride.setParticipants(String.join(", ", participants));
+
+                    ridesTable.getItems().add(ride);
+                }
+            } else {
+                // Handle non-OK response
             }
-            rs.close();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             // Handle exceptions
         }
     }
 
     private void joinRide(int rideId) {
+        sendRideRequest("http://localhost:8000/joinRide", rideId);
+    }
+
+    private void leaveRide(int rideId) {
+        sendRideRequest("http://localhost:8000/leaveRide", rideId);
+    }
+
+    private void sendRideRequest(String urlString, int rideId) {
         try {
+            URL url = new URL(urlString);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("POST");
+            con.setDoOutput(true);
 
-            DatabaseHelper.joinRide(session.getUserId(), rideId);
+            JSONObject json = new JSONObject();
+            json.put("userId", session.getUserId());
+            json.put("rideId", rideId);
 
-            // Update the participants list
-            Ride rideToUpdate = ridesTable.getItems().stream()
-                    .filter(ride -> ride.getId() == rideId)
-                    .findFirst()
-                    .orElse(null);
-            if (rideToUpdate != null) {
-                List<String> participants = DatabaseHelper.getRideParticipantNames(rideId);
-                rideToUpdate.setParticipants(String.join(", ", participants));
-                ridesTable.refresh();
+            con.getOutputStream().write(json.toString().getBytes(StandardCharsets.UTF_8));
+
+            int responseCode = con.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                updateRide(rideId);
+            } else {
+                // Handle errors
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             // Handle exceptions
         }
     }
-    private void leaveRide(int rideId) {
-        try {
-            DatabaseHelper.leaveRide(session.getUserId(), rideId);
 
-            // Update the participants list
-            Ride rideToUpdate = ridesTable.getItems().stream()
-                    .filter(ride -> ride.getId() == rideId)
-                    .findFirst()
-                    .orElse(null);
-            if (rideToUpdate != null) {
-                List<String> participants = DatabaseHelper.getRideParticipantNames(rideId);
-                rideToUpdate.setParticipants(String.join(", ", participants));
-                ridesTable.refresh();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            // Handle exceptions
+    private void updateRide(int rideId) throws SQLException {
+        Ride rideToUpdate = ridesTable.getItems().stream()
+                .filter(ride -> ride.getId() == rideId)
+                .findFirst()
+                .orElse(null);
+        if (rideToUpdate != null) {
+            List<String> participants = DatabaseHelper.getRideParticipantNames(rideId);
+            rideToUpdate.setParticipants(String.join(", ", participants));
+            ridesTable.refresh();
         }
     }
 }

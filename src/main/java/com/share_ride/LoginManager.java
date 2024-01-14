@@ -23,7 +23,6 @@ public class LoginManager {
      */
     public void authenticated(String sessionID) {
         showMainView(sessionID);
-
     }
 
     /**

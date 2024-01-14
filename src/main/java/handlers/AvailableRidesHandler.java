@@ -24,6 +24,7 @@ public class AvailableRidesHandler implements HttpHandler {
                     jsonObject.put("date", rs.getString("date"));
                     jsonObject.put("time", rs.getString("time"));
                     jsonObject.put("seats_available", rs.getInt("seats_available"));
+                    jsonObject.put("creator_id", rs.getInt("creator_id"));
                     jsonArray.put(jsonObject);
                 }
                 rs.close();

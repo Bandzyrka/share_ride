@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView id="availableRidesButton" fitHeight="145.0" fitWidth="148.0" layoutX="38.0" layoutY="126.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@DALL·E%202024-01-13%2001.49.52%20-%20A%20simple,%20blue-themed%20icon%20representing%20a%20ride%20share%20app,%20featuring%20the%20text%20'Available%20Rides'.%20The%20design%20should%20be%20minimalistic,%20with%20a%20stylized%20car.png" />
+         </image>
+      </ImageView>
+      <ImageView id="createRideButton" fitHeight="137.0" fitWidth="150.0" layoutX="224.0" layoutY="129.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@DALL·E%202024-01-13%2001.53.17%20-%20A%20simple,%20blue-themed%20icon%20representing%20a%20feature%20for%20creating%20a%20ride%20in%20a%20ride%20share%20app,%20featuring%20the%20text%20'Create%20Ride'.%20The%20design%20should%20include.png" />
+         </image>
+      </ImageView>
+      <ImageView id="profileButton" fitHeight="137.0" fitWidth="170.0" layoutX="418.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@DALL·E%202024-01-13%2001.58.03%20-%20A%20simple,%20blue-themed%20icon%20for%20a%20'Profile'%20feature%20in%20a%20ride%20share%20app.%20The%20design%20should%20be%20minimalistic%20and%20include%20a%20stylized%20representation%20of%20a%20u.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

@@ -14,10 +14,10 @@ public class DatabaseHelper {
         return DriverManager.getConnection(DB_URL);
     }
 
-    public static void createRide(String creatorId, String origin, String destination, String date, String time, int seats) throws SQLException {
+    public static void createRide(int creatorId, String origin, String destination, String date, String time, int seats) throws SQLException {
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement("INSERT INTO rides (creator_id, origin, destination, date, time, seats_available) VALUES (?, ?, ?, ?, ?, ?)")) {
-            pstmt.setString(1, creatorId);
+            pstmt.setInt(1, creatorId);
             pstmt.setString(2, origin);
             pstmt.setString(3, destination);
             pstmt.setString(4, date);
@@ -33,11 +33,11 @@ public class DatabaseHelper {
         return stmt.executeQuery("SELECT * FROM rides");
     }
 
-    public static void joinRide(String userId, int rideId) throws SQLException {
+    public static void joinRide(int userId, int rideId) throws SQLException {
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement("INSERT INTO ride_participants (ride_id, user_id) VALUES (?, ?)")) {
             pstmt.setInt(1, rideId);
-            pstmt.setString(2, userId);
+            pstmt.setInt(2, userId);
             pstmt.executeUpdate();
         }
     }
@@ -71,10 +71,10 @@ public class DatabaseHelper {
             pstmt.executeUpdate();
         }
     }
-    public static boolean isUserRegisteredForRide(String userId, int rideId) throws SQLException {
+    public static boolean isUserRegisteredForRide(int userId, int rideId) throws SQLException {
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement("SELECT COUNT(*) FROM ride_participants WHERE user_id = ? AND ride_id = ?")) {
-            pstmt.setString(1, userId);
+            pstmt.setInt(1, userId);
             pstmt.setInt(2, rideId);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
@@ -85,19 +85,19 @@ public class DatabaseHelper {
         return false;
     }
 
-    public static void leaveRide(String userId, int rideId) throws SQLException {
+    public static void leaveRide(int userId, int rideId) throws SQLException {
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement("DELETE FROM ride_participants WHERE user_id = ? AND ride_id = ?")) {
-            pstmt.setString(1, userId);
+            pstmt.setInt(1, userId);
             pstmt.setInt(2, rideId);
             pstmt.executeUpdate();
         }
     }
 
-    public static User getUserById(String userId) throws SQLException {
+    public static User getUserById(int userId) throws SQLException {
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM users WHERE id = ?")) {
-            pstmt.setString(1, userId);
+            pstmt.setInt(1, userId);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     return new User(rs.getInt("id"), rs.getString("username"), rs.getString("password"), rs.getString("first_name"), rs.getString("last_name"), rs.getString("phone"), rs.getString("email"), rs.getString("country"), rs.getString("city"), rs.getString("state"), rs.getString("display_name"));
@@ -107,6 +107,40 @@ public class DatabaseHelper {
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
+        }
+    }
+
+    public static User authenticateUser(String username, String password) throws Exception {
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM users WHERE username = ?")) {
+            pstmt.setString(1, username);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next() && rs.getString("password").equals(password)) {
+                    return new User(rs.getInt("id"), rs.getString("username"), rs.getString("display_name"), rs.getString("first_name"), rs.getString("last_name"), rs.getString("email"),rs.getString("state"), rs.getString("city"), rs.getString("country"), rs.getString("phone"), rs.getString("password"));
+                }
+            }
+        }
+        return null;
+    }
+
+    public static void editUser(int userId, String username, String password, String displayName, String firstName, String lastName, String email, String phone, String country, String city, String state) {
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement("UPDATE users SET username = ?, password = ?, display_name = ?, first_name = ?, last_name = ?, email = ?, phone = ?, country = ?, city = ?, state = ? WHERE id = ?")) {
+            pstmt.setString(1, username);
+            pstmt.setString(2, password);
+            pstmt.setString(3, displayName);
+            pstmt.setString(4, firstName);
+            pstmt.setString(5, lastName);
+            pstmt.setString(6, email);
+            pstmt.setString(7, phone);
+            pstmt.setString(8, country);
+            pstmt.setString(9, city);
+            pstmt.setString(10, state);
+            pstmt.setInt(11, userId);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }
